@@ -29,6 +29,7 @@ const Sidebar = ({}: {}) => {
 
     const addJob = async () => {
         const { error } = await supabase.from("jobs").insert({
+            user_id: (await supabase.auth.getUser()).data.user?.id,
             url: url,
             title: title,
             company: company,

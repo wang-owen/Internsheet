@@ -10,7 +10,13 @@ const Table = () => {
         const { data } = await supabase
             .from("jobs")
             .select()
-            .limit(50)
+            .filter(
+                "user_id",
+                "eq",
+                (
+                    await supabase.auth.getUser()
+                ).data.user?.id
+            )
             .order("createdAt", { ascending: false });
         setJobs(data || []);
     }
