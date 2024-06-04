@@ -1,0 +1,52 @@
+{
+    "jobs": [
+        {
+            "company": "Google",
+            "remote": "Office",
+            "season": "Summer",
+            "location": "Canada",
+            "tags": [
+                "SWE",
+                "Frontend"
+            ],
+            "createdat": "05/01/2021",
+            "url": "https://careers.google.com/jobs/results/132383"
+        },
+        {
+            "company": "Facebook",
+            "remote": "Remote",
+            "season": "Fall",
+            "location": "United States",
+            "tags": [
+                "SWE",
+                "Backend"
+            ],
+            "createdat": "05/01/2021",
+            "url": "https://www.facebook.com/careers/jobs/101856885184603/"
+        },
+        {
+            "company": "Twitter",
+            "remote": "Remote",
+            "season": "Winter",
+            "location": "Canada",
+            "tags": [
+                "SWE",
+                "Fullstack"
+            ],
+            "createdat": "05/01/2021",
+            "url": "https://careers.twitter.com/en/work-for-twitter/2021-internship-program.html"
+        },
+        {
+            "id": "a6fc",
+            "url": "https://www.linkedin.com/jobs/view/3934718028/",
+            "company": "Konrad",
+            "remote": "Office",
+            "season": "Summer",
+            "location": "Canada",
+            "tags": [
+                "SWE",
+                "Toronto"
+            ]
+        }
+    ]
+}
