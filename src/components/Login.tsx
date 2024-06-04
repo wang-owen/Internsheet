@@ -3,6 +3,8 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 const Login = () => {
+    const theme = localStorage.getItem("theme") || "light";
+
     return (
         <>
             <div className="hero bg-base-200 h-full w-full lg:h-2/3 lg:w-2/3 rounded-3xl">
@@ -21,7 +23,12 @@ const Login = () => {
                                 extend: true,
                                 theme: ThemeSupa,
                                 style: {
-                                    input: { color: "white" },
+                                    input: {
+                                        color:
+                                            theme === "dark"
+                                                ? "white"
+                                                : "black",
+                                    },
                                 },
                             }}
                             providers={[]}
