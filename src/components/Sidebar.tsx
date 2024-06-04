@@ -1,25 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "../config/supabase.tsx";
-import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 
 const Sidebar = ({}: {}) => {
-    const page = document.querySelector("html");
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") || "light"
-    );
-    const toggleTheme = () => {
-        localStorage.setItem("theme", theme === "light" ? "dark" : "light");
-        setTheme(theme === "light" ? "dark" : "light");
-    };
-    useEffect(() => {
-        if (page) {
-            page.setAttribute(
-                "data-theme",
-                localStorage.getItem("theme") || theme
-            );
-        }
-    }, [theme]);
-
     const [url, setUrl] = useState("");
     const [title, setTitle] = useState("");
     const [company, setCompany] = useState("");
@@ -119,16 +101,6 @@ const Sidebar = ({}: {}) => {
             >
                 Add
             </button>
-            <label className="flex cursor-pointer gap-2 p-2">
-                <MdOutlineLightMode size={25} />
-                <input
-                    type="checkbox"
-                    className="toggle theme-controller"
-                    onChange={toggleTheme}
-                    checked={theme === "dark"}
-                />
-                <MdOutlineDarkMode size={25} />
-            </label>
         </div>
     );
 };

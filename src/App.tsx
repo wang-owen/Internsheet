@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "./config/supabase.tsx";
 import { Session } from "@supabase/supabase-js";
+import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 import Sidebar from "./components/Sidebar";
 import Table from "./components/Table";
 import Login from "./components/Login";
 import Signout from "./components/Signout";
-import { useEffect } from "react";
 
 function App() {
+    const page = document.querySelector("html");
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") || "light"
+    );
+    const toggleTheme = () => {
+        localStorage.setItem("theme", theme === "light" ? "dark" : "light");
+        setTheme(theme === "light" ? "dark" : "light");
+    };
+    useEffect(() => {
+        if (page) {
+            page.setAttribute(
+                "data-theme",
+                localStorage.getItem("theme") || theme
+            );
+        }
+    }, [theme]);
+
     const [session, setSession] = useState<Session | null>(null);
 
     useEffect(() => {
@@ -31,7 +48,17 @@ function App() {
                     <Login />
                 ) : (
                     <div className="h-full w-11/12">
-                        <div className="text-right p-4 border-b-2 m-4">
+                        <div className="flex justify-between h-min items-center m-4 border-b-2 pb-2">
+                            <label className="flex cursor-pointer gap-2 p-2">
+                                <MdOutlineLightMode size={25} />
+                                <input
+                                    type="checkbox"
+                                    className="toggle theme-controller"
+                                    onChange={toggleTheme}
+                                    checked={theme === "dark"}
+                                />
+                                <MdOutlineDarkMode size={25} />
+                            </label>
                             <Signout />
                         </div>
                         <div className="flex">
