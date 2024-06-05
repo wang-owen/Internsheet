@@ -39,6 +39,7 @@ const Table = () => {
         )
         .subscribe();
 
+    const [editJobStatus, setEditJobStatus] = useState("");
     const [editJobId, setEditJobId] = useState("");
     const [editJobUrl, setEditJobUrl] = useState("");
     const [editJobTitle, setEditJobTitle] = useState("");
@@ -48,6 +49,7 @@ const Table = () => {
     const [editJobLocation, setEditJobLocation] = useState("");
 
     const showEditModal = ({
+        status,
         id,
         url,
         title,
@@ -56,6 +58,7 @@ const Table = () => {
         season,
         location,
     }: {
+        status: string;
         id: string;
         url: string;
         title: string;
@@ -64,6 +67,7 @@ const Table = () => {
         season: string;
         location: string;
     }) => {
+        setEditJobStatus(status);
         setEditJobId(id);
         setEditJobUrl(url);
         setEditJobTitle(title);
@@ -84,6 +88,7 @@ const Table = () => {
         const { error } = await supabase
             .from("jobs")
             .update({
+                status: editJobStatus,
                 url: editJobUrl,
                 title: editJobTitle,
                 company: editJobCompany,
@@ -105,6 +110,32 @@ const Table = () => {
                 </form>
                 <h3 className="font-bold text-lg">Edit Job</h3>
                 <div className="py-4">
+                    <div className="join my-2">
+                        <input
+                            className="join-item btn"
+                            type="radio"
+                            name="status"
+                            aria-label="Pending"
+                            checked={editJobStatus === "Pending"}
+                            onChange={() => setEditJobStatus("Pending")}
+                        />
+                        <input
+                            className="join-item btn"
+                            type="radio"
+                            name="status"
+                            aria-label="Interview"
+                            checked={editJobStatus === "Interview"}
+                            onChange={() => setEditJobStatus("Interview")}
+                        />
+                        <input
+                            className="join-item btn"
+                            type="radio"
+                            name="status"
+                            aria-label="Offer"
+                            checked={editJobStatus === "Offer"}
+                            onChange={() => setEditJobStatus("Offer")}
+                        />
+                    </div>
                     <input
                         type="text"
                         placeholder="Link to job posting"
@@ -241,7 +272,16 @@ const Table = () => {
                             {jobs.map((job: Job, i: number) => {
                                 const r = jobs.length - i;
                                 return (
-                                    <tr key={job.id}>
+                                    <tr
+                                        key={job.id}
+                                        className={
+                                            job.status === "Interview"
+                                                ? "bg-sky-300"
+                                                : job.status === "Offer"
+                                                ? "bg-green-300"
+                                                : ""
+                                        }
+                                    >
                                         <td>{r}</td>
                                         <td>{job.title}</td>
                                         <td>{job.company}</td>
@@ -274,6 +314,7 @@ const Table = () => {
                                                         <a
                                                             onClick={() =>
                                                                 showEditModal({
+                                                                    status: job.status,
                                                                     id: job.id,
                                                                     url: job.url,
                                                                     title: job.title,

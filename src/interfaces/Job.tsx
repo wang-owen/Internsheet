@@ -1,4 +1,5 @@
 interface Job {
+    status: string;
     id: string;
     url: string;
     title: string;
