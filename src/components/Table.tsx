@@ -20,6 +20,9 @@ const Table = () => {
             .order("createdAt", { ascending: false });
         setJobs(data || []);
     }
+    useEffect(() => {
+        getJobs();
+    }, []);
 
     // Listen for changes to jobs
     supabase
@@ -35,22 +38,6 @@ const Table = () => {
             getJobs()
         )
         .subscribe();
-
-    const [tableStyle, setTableStyle] = useState("xs");
-    const handleTableSize = async (increase: boolean) => {
-        if (increase) {
-            setTableStyle("sm");
-            localStorage.setItem("tableStyle", "sm");
-        } else {
-            setTableStyle("xs");
-            localStorage.setItem("tableStyle", "xs");
-        }
-    };
-
-    useEffect(() => {
-        getJobs();
-        setTableStyle(localStorage.getItem("tableStyle") || "xs");
-    }, []);
 
     const [editJobId, setEditJobId] = useState("");
     const [editJobUrl, setEditJobUrl] = useState("");
@@ -235,105 +222,91 @@ const Table = () => {
     return (
         <>
             {editModal}
-            <div className="flex justify-end px-4 h-4">
-                <div className="join mb-4">
-                    <button
-                        className="join-item btn w-12"
-                        onClick={() => handleTableSize(false)}
-                    >
-                        -
-                    </button>
-                    <button
-                        className="join-item btn w-12"
-                        onClick={() => handleTableSize(true)}
-                    >
-                        +
-                    </button>
-                </div>
-            </div>
-            <div className="overflow-x-auto pt-8">
-                <table className={`table table-${tableStyle}`}>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Title</th>
-                            <th>Company</th>
-                            <th>Remote</th>
-                            <th>Season</th>
-                            <th>Location</th>
-                            <th>Date Applied</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {jobs.map((job: Job, i: number) => {
-                            const r = jobs.length - i;
-                            return (
-                                <tr key={job.id}>
-                                    <td>{r}</td>
-                                    <td>{job.title}</td>
-                                    <td>{job.company}</td>
-                                    <td>{job.remote}</td>
-                                    <td>{job.season}</td>
-                                    <td>{job.location}</td>
-                                    <td>{job.createdAt}</td>
-                                    <td>
-                                        <div className="dropdown dropdown-left dropdown-end">
-                                            <div
-                                                tabIndex={0}
-                                                role="button"
-                                                className="btn m-1"
-                                            >
-                                                <BsThreeDotsVertical />
+            <div className="flex justify-between items-center px-4">
+                <div className="overflow-x-auto pt-8 w-full">
+                    <table className="table table-xs">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Title</th>
+                                <th>Company</th>
+                                <th>Remote</th>
+                                <th>Season</th>
+                                <th>Location</th>
+                                <th>Date Applied</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {jobs.map((job: Job, i: number) => {
+                                const r = jobs.length - i;
+                                return (
+                                    <tr key={job.id}>
+                                        <td>{r}</td>
+                                        <td>{job.title}</td>
+                                        <td>{job.company}</td>
+                                        <td>{job.remote}</td>
+                                        <td>{job.season}</td>
+                                        <td>{job.location}</td>
+                                        <td>{job.createdAt}</td>
+                                        <td>
+                                            <div className="dropdown dropdown-left dropdown-end">
+                                                <div
+                                                    tabIndex={0}
+                                                    role="button"
+                                                    className="btn m-1"
+                                                >
+                                                    <BsThreeDotsVertical />
+                                                </div>
+                                                <ul
+                                                    tabIndex={0}
+                                                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-16"
+                                                >
+                                                    <li>
+                                                        <a
+                                                            href={job.url}
+                                                            target="_blank"
+                                                        >
+                                                            <FaExternalLinkAlt />
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            onClick={() =>
+                                                                showEditModal({
+                                                                    id: job.id,
+                                                                    url: job.url,
+                                                                    title: job.title,
+                                                                    company:
+                                                                        job.company,
+                                                                    remote: job.remote,
+                                                                    season: job.season,
+                                                                    location:
+                                                                        job.location,
+                                                                })
+                                                            }
+                                                        >
+                                                            <FaEdit />
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            onClick={handleRemove(
+                                                                job.id
+                                                            )}
+                                                        >
+                                                            <FaTrash />
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <ul
-                                                tabIndex={0}
-                                                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-16"
-                                            >
-                                                <li>
-                                                    <a
-                                                        href={job.url}
-                                                        target="_blank"
-                                                    >
-                                                        <FaExternalLinkAlt />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        onClick={() =>
-                                                            showEditModal({
-                                                                id: job.id,
-                                                                url: job.url,
-                                                                title: job.title,
-                                                                company:
-                                                                    job.company,
-                                                                remote: job.remote,
-                                                                season: job.season,
-                                                                location:
-                                                                    job.location,
-                                                            })
-                                                        }
-                                                    >
-                                                        <FaEdit />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        onClick={handleRemove(
-                                                            job.id
-                                                        )}
-                                                    >
-                                                        <FaTrash />
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     );

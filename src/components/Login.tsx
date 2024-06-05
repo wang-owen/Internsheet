@@ -10,7 +10,7 @@ const Login = () => {
             <div className="hero bg-base-200 h-full w-full lg:h-2/3 lg:w-2/3 rounded-3xl">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left lg:ml-8 w-min">
-                        <h1 className="text-5xl font-bold">JobRacer</h1>
+                        <h1 className="text-5xl font-bold">Internsheet</h1>
                         <p className="py-6">
                             Track your job applications and race your friends to
                             see who can send the most!
