@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "../config/supabase.tsx";
 import Job from "../interfaces/Job";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaExternalLinkAlt, FaTrash, FaEdit } from "react-icons/fa";
+import {
+    FaExternalLinkAlt,
+    FaTrash,
+    FaEdit,
+    FaStickyNote,
+} from "react-icons/fa";
 
 const Table = () => {
     const [jobs, setJobs] = useState<Job[]>([]);
@@ -40,6 +45,7 @@ const Table = () => {
         .subscribe();
 
     const [editJobStatus, setEditJobStatus] = useState("");
+    const [editJobNotes, setEditJobNotes] = useState("");
     const [editJobId, setEditJobId] = useState("");
     const [editJobUrl, setEditJobUrl] = useState("");
     const [editJobTitle, setEditJobTitle] = useState("");
@@ -47,6 +53,67 @@ const Table = () => {
     const [editJobRemote, setEditJobRemote] = useState("");
     const [editJobSeason, setEditJobSeason] = useState("");
     const [editJobLocation, setEditJobLocation] = useState("");
+
+    const showNoteModal = ({ notes }: { notes: string }) => {
+        setEditJobNotes(notes);
+
+        const noteModal = document.getElementById(
+            "noteModal"
+        ) as HTMLDialogElement;
+        if (noteModal) {
+            noteModal.showModal();
+        }
+    };
+
+    const handleNoteEdit = async () => {
+        const { error } = await supabase
+            .from("jobs")
+            .update({
+                notes: editJobNotes,
+            })
+            .match({ id: editJobId });
+        if (error) console.log(error);
+    };
+
+    const noteModal = (
+        <>
+            <dialog id="noteModal" className="modal">
+                <div className="modal-box">
+                    <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            ✕
+                        </button>
+                    </form>
+                    <h3 className="font-bold text-lg">Notes</h3>
+                    <input
+                        type="text"
+                        value={editJobNotes}
+                        className="border w-full h-auto mt-4 rounded-lg whitespace-pre-wrap p-2"
+                        onChange={(event) =>
+                            setEditJobNotes(event.target.value)
+                        }
+                    ></input>
+                    <div className="w-full flex justify-end">
+                        <button
+                            className="btn w-1/5 mt-2"
+                            onClick={() => {
+                                handleNoteEdit();
+                                // Close modal
+                                const noteModal = document.getElementById(
+                                    "noteModal"
+                                ) as HTMLDialogElement;
+                                if (noteModal) {
+                                    noteModal.close();
+                                }
+                            }}
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </dialog>
+        </>
+    );
 
     const showEditModal = ({
         status,
@@ -261,6 +328,7 @@ const Table = () => {
     return (
         <>
             {editModal}
+            {noteModal}
             <div className="flex justify-between items-center px-4">
                 <div className="overflow-x-auto pt-8 w-full">
                     <table className="table table-xs">
@@ -338,6 +406,17 @@ const Table = () => {
                                                             }
                                                         >
                                                             <FaEdit />
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            onClick={() =>
+                                                                showNoteModal({
+                                                                    notes: job.notes,
+                                                                })
+                                                            }
+                                                        >
+                                                            <FaStickyNote />
                                                         </a>
                                                     </li>
                                                     <li>

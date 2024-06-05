@@ -1,5 +1,6 @@
 interface Job {
     status: string;
+    notes: string;
     id: string;
     url: string;
     title: string;
