@@ -115,9 +115,17 @@ const Table = () => {
                             className="join-item btn"
                             type="radio"
                             name="status"
-                            aria-label="Pending"
-                            checked={editJobStatus === "Pending"}
-                            onChange={() => setEditJobStatus("Pending")}
+                            aria-label="Applied"
+                            checked={editJobStatus === "Applied"}
+                            onChange={() => setEditJobStatus("Applied")}
+                        />
+                        <input
+                            className="join-item btn"
+                            type="radio"
+                            name="status"
+                            aria-label="Rejected"
+                            checked={editJobStatus === "Rejected"}
+                            onChange={() => setEditJobStatus("Rejected")}
                         />
                         <input
                             className="join-item btn"
@@ -275,7 +283,9 @@ const Table = () => {
                                     <tr
                                         key={job.id}
                                         className={
-                                            job.status === "Interview"
+                                            job.status === "Rejected"
+                                                ? "bg-red-300"
+                                                : job.status === "Interview"
                                                 ? "bg-sky-300"
                                                 : job.status === "Offer"
                                                 ? "bg-green-300"
