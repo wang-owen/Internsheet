@@ -29,6 +29,9 @@ const Sidebar = () => {
         [...document.getElementsByClassName("jobInput")].forEach(
             (input: Element) => ((input as HTMLInputElement).value = "")
         );
+        [...document.getElementsByClassName("jobRadio")].forEach(
+            (input: Element) => ((input as HTMLInputElement).checked = false)
+        );
         // Clear states
         setUrl("");
         setTitle("");
@@ -69,21 +72,21 @@ const Sidebar = () => {
                     />
                     <div className="join my-2">
                         <input
-                            className="join-item btn"
+                            className="join-item btn jobRadio"
                             type="radio"
                             name="remote"
                             aria-label="Office"
                             onClick={() => setRemote("Office")}
                         />
                         <input
-                            className="join-item btn"
+                            className="join-item btn jobRadio"
                             type="radio"
                             name="remote"
                             aria-label="Hybrid"
                             onClick={() => setRemote("Hybrid")}
                         />
                         <input
-                            className="join-item btn"
+                            className="join-item btn jobRadio"
                             type="radio"
                             name="remote"
                             aria-label="Remote"
@@ -92,21 +95,21 @@ const Sidebar = () => {
                     </div>
                     <div className="join my-2">
                         <input
-                            className="join-item btn"
+                            className="join-item btn jobRadio"
                             type="radio"
                             name="season"
                             aria-label="Summer"
                             onClick={() => setSeason("Summer")}
                         />
                         <input
-                            className="join-item btn"
+                            className="join-item btn jobRadio"
                             type="radio"
                             name="season"
                             aria-label="Fall"
                             onClick={() => setSeason("Fall")}
                         />
                         <input
-                            className="join-item btn"
+                            className="join-item btn jobRadio"
                             type="radio"
                             name="season"
                             aria-label="Winter"
