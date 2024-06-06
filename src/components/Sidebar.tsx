@@ -29,6 +29,13 @@ const Sidebar = () => {
         [...document.getElementsByClassName("jobInput")].forEach(
             (input: Element) => ((input as HTMLInputElement).value = "")
         );
+        // Clear states
+        setUrl("");
+        setTitle("");
+        setCompany("");
+        setRemote("");
+        setSeason("");
+        setLocation("");
     };
 
     return (
